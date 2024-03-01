@@ -1,16 +1,30 @@
+#install.packages("forecast")
+#install.packages("quantmod",dependencies=TRUE)
+#install.packages("tseries") # read.ts jest z tej bioblioteki
+#install.packages("expsmooth")
+#install.packages("lattice")
+#install.packages("tseries")
+
+library(forecast) 
+library(tidyverse)
+library(quantmod)
+library(tseries)
+library(expsmooth)
+library(lattice)
+library(ggplot2)
+library(tseries)
+
+
 # 1
     #http://www-eio.upc.edu/~pau/cms/rdata/datasets.html - dane
     
     data(package = "datasets")
     
-    #install.packages("forecast")
-    library(forecast)
     library(help="forecast")
 
     
 #2
     data(package = "forecast")
-    
     data(wineind)
     wineind
     
@@ -39,8 +53,6 @@
     
 #5
     #http://stat.gov.pl/bdl/ - dane
-    
-    library(tidyverse)
     data <- read.csv("listy/dane/wolne_miejsca_pracy.csv", sep = ";", header = FALSE)
     
     col_names <- data[1, ] # ustawienia nazw kolumn
@@ -62,8 +74,6 @@
 
     
 #7
-    #install.packages("tseries") # read.ts jest z tej bioblioteki
-    library(tseries)
     write(ts_data, file = "listy/dane/wina.ts")
     data_ts <- read.ts("listy/dane/wine_years.txt",header = TRUE)
     data_ts
@@ -114,8 +124,6 @@
     
     
 #11
-    #install.packages("expsmooth")
-    library(expsmooth)
     data(package = "expsmooth")
     data(usgdp)
     
@@ -128,9 +136,6 @@
     
     
 #12
-    #install.packages("quantmod",dependencies=TRUE)
-    library(quantmod)
-    
     getSymbols("^DJI", src = "yahoo", from = "2022-01-01", to = Sys.Date())
     getSymbols("USDEUR=X", src = "yahoo", from = "2022-01-01", to = Sys.Date())
     getSymbols("BTC-USD", src = "yahoo", from = "2022-01-01", to = Sys.Date())
@@ -145,9 +150,6 @@
     
     
 #13
-    #install.packages("tseries")
-    library(tseries)
-    
     IBM <- get.hist.quote(instrument = "IBM", quote = c("Open", "High"), provider = "yahoo", start = "2015-07-01", end = "2020-08-06")
     
     head(IBM)
@@ -156,7 +158,7 @@
     
 #14
     data("AirPassengers")
-    
+
     subset_data <- window(AirPassengers, start = c(1950, 1), end = c(1957, 12)) # Obcięcie danych
     
     for (lag in 1:12) {lag.plot(AirPassengers, lags = lag, main = "Plots for AirPassengers Data")}
@@ -179,10 +181,6 @@
     
 
 #17
-    #install.packages("lattice")
-    library(lattice)
-    library(ggplot2)
-    
     data("Nile")
 
     xyplot(Nile ~ time(Nile), main = "Wykres z różnymi proporcjami obrazu", aspect = "iso")

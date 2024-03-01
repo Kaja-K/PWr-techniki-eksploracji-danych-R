@@ -1,7 +1,14 @@
+# install.packages("carData")
+# install.packages("caret")
+
+library(carData)
+library(class)
+library(caret)
+library(ggplot2)
+library(class)
+
+
 #1
-    library(ggplot2)
-    library(class)
-    
     data(diamonds)
     new_diamond <- data.frame(carat = 0.24, depth = 55.8, table = 55, price = 322, x = 3.87, y = 4.01, z = 2.86)
     features <- diamonds[, c(1, 5, 6, 7, 8, 9, 10)] # zdefiniowane zmienne
@@ -24,18 +31,36 @@
     
     
 #3
-    library(carData)
-    library(class)
-    
     data(Chile)
     
-    missing_rows <- which(!complete.cases(Chile$vote))
+    data <- Chile[, c(4, 6, 7, 8)] #wybranie kolumn
+    filter_data <- data[which(complete.cases(data[, c("age", "income", "statusquo")])), ]# wyfiltrowanie kompletnych danych
+    data_na <- filter_data[which(is.na.data.frame(filter_data[, "vote"])), ] # odfiltrowanie NA
     
-    features <- Chile[, c("age", "income", "statusquo")]
-    labels <- Chile$vote
+    cases <- data[which(complete.cases(data)), ] # wiersze z kompletnymi danymi
     
-    optimal_k <-
+    nor <- function(x) { (x - min(x)) / (max(x) - min(x)) } # normalizacja danych
+    cases_normalized <- as.data.frame(lapply(cases[, c("age", "income", "statusquo")], nor)) #normalizacja kolumn
+    
+    
+    # Funkcja do imputacji brakujących wartości za pomocą kNN
+    impute_vote_knn <- function(data, k) {
+      train_data <- data[complete.cases(data), c("age", "income", "statusquo")]
+      predict_data <- data[which(is.na(data$vote)), c("age", "income", "statusquo")]
+      if (any(is.na(predict_data))) {predict_data <- 
+        apply(predict_data, 2, function(x) ifelse(is.na(x), mean(x, na.rm = TRUE), x))}
       
-    imputed_votes <- knn(features[-missing_rows, ], features[missing_rows, ], labels[-missing_rows], k = optimal_k)
+      knn_model <- knn(train_data, predict_data, data$vote[complete.cases(data)], k = k)
+      return(knn_model)}
     
-    Chile$vote[missing_rows] <- imputed_votes
+    ctrl <- trainControl(method = "cv", number = 5)  # walidacja krzyżowa
+    
+    knn_model <- train(x = cases_normalized, y = cases$vote,method = "knn",trControl = ctrl,
+                       tuneGrid = data.frame(k = seq(1, 10))) # trenowanie modelu
+    
+    optimal_k <- knn_model$bestTune$k #optymalna wartość k
+    imputed_votes <- impute_vote_knn(data, optimal_k) # imputowanie brakujących wartości
+    data$vote[which(is.na(data$vote))] <- imputed_votes # zastąpienie brakujących wartości imputowanymi
+    
+    levels(data$vote) #nie ma tu wartości NA
+    

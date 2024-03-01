@@ -1,6 +1,16 @@
+#install.packages("psych")
+#install.packages("ggpubr")
+
+library(ggpubr)
+library(stats)
+library(psych)
+library(ggplot2)
+library(expsmooth)
+library(forecast)
+
+
 #1
-    data <- c(-10, 9, 1, 2, 5, -2, 6, 2, 1, 0, 1, 4, 5, 6, 3, 7, 3, 2,
-           2, 3, 8, 5, 3, 4, 8, 0, 8, 0, 5, 1, 6, 4, 8, 13, 2, -13, 20)
+    data <- c(-10, 9, 1, 2, 5, -2, 6, 2, 1, 0, 1, 4, 5, 6, 3, 7, 3, 2, 2, 3, 8, 5, 3, 4, 8, 0, 8, 0, 5, 1, 6, 4, 8, 13, 2, -13, 20)
     
     mean(data)
     median(data)
@@ -10,9 +20,6 @@
     summary(data)
     min(data)
     max(data)
-    
-    #install.packages("psych")
-    library(psych)
     
     describe(data)
 
@@ -36,7 +43,6 @@
     
     
 #5
-    library(ggplot2)
     data(mpg)
     
     summary(mpg$hwy)
@@ -57,15 +63,15 @@
     
 #7
     #Metoda 3 sigm
-    outliers_3sigma <- mpg$hwy[mpg$hwy <= (mean(mpg$hwy) - 3*sd(mpg$hwy)) | mpg$hwy >= (mean(mpg$hwy) + 3*sd(mpg$hwy))]
+      outliers_3sigma <- mpg$hwy[mpg$hwy <= (mean(mpg$hwy) - 3*sd(mpg$hwy)) | mpg$hwy >= (mean(mpg$hwy) + 3*sd(mpg$hwy))]
 
     which(mpg$hwy %in% outliers_3sigma)
     
     #Metoda półtora rozstępu ćwiartkowego 
-    q25_hwy <- quantile(mpg$hwy, 0.25)
-    q75_hwy <- quantile(mpg$hwy, 0.75)
-    outliers_hwy <- mpg$hwy[mpg$hwy <= (q25_hwy - 1.5*IQR(mpg$hwy)) | mpg$hwy >= (q75_hwy + 1.5*IQR(mpg$hwy))]
-    
+      q25_hwy <- quantile(mpg$hwy, 0.25)
+      q75_hwy <- quantile(mpg$hwy, 0.75)
+      outliers_hwy <- mpg$hwy[mpg$hwy <= (q25_hwy - 1.5*IQR(mpg$hwy)) | mpg$hwy >= (q75_hwy + 1.5*IQR(mpg$hwy))]
+      
     which(mpg$hwy %in% outliers_hwy)
 
     
@@ -79,13 +85,8 @@
 
     
 #9
-    #install.packages("ggpubr")
-    library(ggpubr)
-    library(stats)
-
     data(mtcars)
     
-
     cor(x = mtcars$mpg, y = mtcars$wt)
     lm(wt ~ mpg, data = mtcars) # regresja liniowa
 
@@ -94,9 +95,6 @@
 
     
 #10
-    library(expsmooth)
-    library(forecast)
-    
     lag.plot(bonds, lags = 4, do.lines = FALSE) # wykres rozrzutu dla opóźnień
     lag.plot(visitors, lags = 4, do.lines = FALSE)
     
