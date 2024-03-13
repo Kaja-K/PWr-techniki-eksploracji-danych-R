@@ -129,7 +129,7 @@ library(tseries)
     
 # 12. Pobieranie danych giełdowych
 
-    getSymbols("^DJI", src = "yahoo", from = "2022-01-01", to = Sys.Date())
+    dane <- getSymbols("^DJI", src = "yahoo", from = "2022-01-01", to = Sys.Date(), auto.assign = FALSE)
     getSymbols("USDEUR=X", src = "yahoo", from = "2022-01-01", to = Sys.Date())
     getSymbols("BTC-USD", src = "yahoo", from = "2022-01-01", to = Sys.Date())
     head(DJI)
@@ -138,7 +138,9 @@ library(tseries)
     class(DJI)
     class(`USDEUR=X`)
     class(`BTC-USD`)
-    
+
+    plot(DJI)
+    plot(dane)
     
 # 13. Pobieranie danych giełdowych z instrumentem IBM
 
@@ -180,4 +182,3 @@ library(tseries)
     
     xyplot(Nile ~ time(Nile) | cut(time(Nile), 3, overlap = 0.5), layout = c(3, 1),
            main = "Wykres z trzema panelami i częścią wspólną 50%")
-    
