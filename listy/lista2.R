@@ -79,7 +79,7 @@ data(mtcars) # 9 zadanie
     which(mpg$hwy %in% outliers_hwy)
     
     
-#8. Wykres rozrzutu (scatter plot) i obliczenie korelacji
+#8. Wykres rozrzutu i obliczenie korelacji
 
     plot(X, Y)
     cor(x = X, y = Y)
@@ -103,11 +103,14 @@ data(mtcars) # 9 zadanie
     lag.plot(bonds, lags = 4, do.lines = FALSE) 
     lag.plot(visitors, lags = 4, do.lines = FALSE)
     
-    # Wykres serii czasowej
+    # Wykresy serii czasowej
     plot(bonds, main = "Time - Bonds", xlab = "Time", ylab = "Bonds")
     plot(visitors, main = "Time - Visitors", xlab = "Time", ylab = "Visitors")
     
-    # Prognoza na 4 podokresy dla serii czasowej przy użyciu modelu regresji z trendem
+    # Prognozy na 4 podokresy dla serii czasowej przy użyciu modelu regresji z trendem
     forecast_bonds <- forecast(tslm(bonds ~ trend), h = 4) 
     forecast_visitors <- forecast(tslm(visitors ~ trend), h = 4)  
+    
+    forecast_bonds
+    forecast_visitors
     
