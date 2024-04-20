@@ -1,0 +1,10 @@
+liczby=rnorm(72)
+dane.miesieczne=ts(liczby, start=c(2010,1),frequency=12)
+plot(dane.miesieczne)
+dane.kwartalne=ts(liczby, start=c(2010,1), frequency=4)
+plot(dane.kwartalne)
+dane.roczne=ts(liczby, start=2010, frequency=1)
+plot(dane.roczne)
+dane.5=ts(liczby, start=c(2010,1),frequency=5)
+plot(dane.5)
+
