@@ -2,6 +2,7 @@
 
 library(cluster)
 library(factoextra)
+library(ggplot2)
 
 # Powtarzalność podziałów
 set.seed(123) 
@@ -34,13 +35,13 @@ data(pluton) # 4 zadanie
     diamonds_sample <- diamonds[sample(nrow(diamonds), 1000), c("carat", "depth", "table", "price")]
     
     # Metoda "łokcia" dla wyboru optymalnej liczby klastrów
-    for (i in 1:10) {kmeans_model <- kmeans(diamonds_sample, centers = i, nstart = 20) wss[i] <- sum(kmeans_model$withinss)}
+    #for (i in 1:10) {kmeans_model <- kmeans(diamonds_sample, centers = i, nstart = 20) wss[i] <- sum(kmeans_model$withinss)}
     
     # Wykres "łokcia" dla oceny optymalnej liczby klastrów
     plot(1:10, wss, type = "b", pch = 19, frame = FALSE, main = "Elbow Method for Optimal k")
     
     # Klasteryzacja K-średnich (optymalna liczba klastrów to 3)
-    kmeans_result <- kmeans(diamonds_sample, centers = 3, nstart = 20) 
+    kmeans_result <- kmeans(diamonds_sample, centers = 4, nstart = 20) 
     
     # Wizualizacja klastrów
     fviz_cluster(kmeans_result, geom = c("point", "text"), data = diamonds_sample[, c("carat", "price")], 
@@ -62,7 +63,7 @@ data(pluton) # 4 zadanie
     plot(wss, type = "b", main = "Elbow Method for Optimal k")
     
     # Klasteryzacja K-średnich (optymalna liczba klastrów to 3)
-    kmeans_result <- kmeans(votes.repub_numeric, centers = 3, nstart = 20) 
+    kmeans_result <- kmeans(votes.repub_numeric, centers = 4, nstart = 20) 
     
     # Wizualizacja klastrów
     fviz_cluster(kmeans_result, data = votes.repub_numeric, stand = FALSE, ellipse.type = "convex", 
@@ -80,7 +81,7 @@ data(pluton) # 4 zadanie
     plot(wss, type = "b", main = "Elbow Method for Optimal k")
     
     # Klasteryzacja K-średnich (optymalna liczba klastrów to 3)
-    kmeans_result <- kmeans(pluton[, 1:ncol(pluton)], centers = 3, nstart = 20) 
+    kmeans_result <- kmeans(pluton[, 1:ncol(pluton)], centers = 4, nstart = 20) 
     
     # Wizualizacja klastrów
     fviz_cluster(kmeans_result, data = pluton[, 1:ncol(pluton)], stand = FALSE,
